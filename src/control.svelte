@@ -1,12 +1,11 @@
 <script>
     import { type } from './stores.js'
-    const toggle = (toggleType) => () => $type = toggleType
 </script>
 
 <div>
-    <p class:toggle={$type == 'all'} class="all" on:click={toggle('all')} >All</p>
-    <p class:toggle={$type == 'active'} class="active" on:click={toggle('active')}>Active</p>
-    <p class:toggle={$type == 'completed'} class="completed" on:click={toggle('completed')}>Completed</p>
+    <p class:toggle={$type == 'all'} class="all" on:click={type.toggle('all')} >All</p>
+    <p class:toggle={$type == 'active'} class="active" on:click={type.toggle('active')}>Active</p>
+    <p class:toggle={$type == 'completed'} class="completed" on:click={type.toggle('completed')}>Completed</p>
 </div>
 
 <style>
@@ -32,6 +31,7 @@
         cursor: pointer;
         transform: translateX(-50%);
         margin: 0 20px;
+        user-select: none;
     }
 
     .all { justify-self: end; align-self: center; }
@@ -42,7 +42,7 @@
 
     .toggle, .toggle:hover { color: var(--primary) }
     
-    @media (min-width: 900px) {
+    @media (min-width: 1150px) {
         div { display: none; }
     }
 </style>

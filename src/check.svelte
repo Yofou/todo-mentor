@@ -43,7 +43,7 @@
             var(--color);
     }
 
-    @media (max-width: 900px) {
+    @media (max-width: 1150px) {
         div { --radius: calc(24px * 0.9) }
     }
 </style>

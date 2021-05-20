@@ -48,7 +48,7 @@
         caret-color: var(--primary) 
     }
 
-    @media (max-width: 900px) {
+    @media (max-width: 1150px) {
         input { font-size: 0.9rem; }
     }
 </style>

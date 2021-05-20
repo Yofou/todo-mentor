@@ -131,6 +131,7 @@
 		letter-spacing: .7rem;
 		color: white;
 		font-family: var(--family);
+		user-select: none;
 	}
 	
 	img.header {
@@ -149,7 +150,7 @@
 		transform: translateY(-10px);
 	}
 
-	@media ( max-width: 900px ) {
+	@media ( max-width: 1150px ) {
 		.container {
 			width: 90%;
 			height: 93%;

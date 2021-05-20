@@ -26,11 +26,18 @@
     }
 
     div p {
+        display: grid;
+        align-content: center;
+        align-self: center;
+        
+        width: 100%;
+        height: 100%;
+        
         color: var(--list-text);
         font-family: var(--family);
         font-size: 1.1rem;
         font-weight: 400;
-        align-self: center;
+        
         transition: color 0.1s ease-in-out;
     }
 
@@ -53,7 +60,7 @@
         border-bottom: var(--primary) solid 1px !important;
     }
 
-    @media (max-width: 900px) {
+    @media (max-width: 1150px) {
         div p { font-size: 0.9rem; }
         div img { 
             scale: 0.8;

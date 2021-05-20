@@ -7,13 +7,12 @@
     onMount( () => {
         new Sortable(list, {
             animation: 150,
-            ghostClass: 'selected'
+            ghostClass: 'selected',
+            handle: 'p'
         })
     } )
 
     $: left = $todos.filter( ({checked}) => !checked ).length
-
-    const toggle = (toggleType) => () => $type = toggleType
     const clearCompleted = () => $todos = $todos.filter( ({checked}) => !checked )
 </script>
 
@@ -24,9 +23,9 @@
 
     <div class="control">
         <p class="counter">{left} items left</p>
-        <p class:toggle={$type == 'all'} class="all" on:click={toggle('all')}>All</p>
-        <p class:toggle={$type == 'active'} class="active" on:click={toggle('active')}>Active</p>
-        <p class:toggle={$type == 'completed'} class="completed" on:click={toggle('completed')}>Completed</p>
+        <p class:toggle={$type == 'all'} class="all" on:click={type.toggle('all')}>All</p>
+        <p class:toggle={$type == 'active'} class="active" on:click={type.toggle('active')}>Active</p>
+        <p class:toggle={$type == 'completed'} class="completed" on:click={type.toggle('completed')}>Completed</p>
         <p class="clear" on:click={clearCompleted}>Clear Completed</p>
     </div>
 </section>
@@ -64,6 +63,7 @@
         color: var(--footer-color);
         transition: color 0.1s ease-in-out;
         font-weight: 700;
+        user-select: none;
     }
 
     .control p:hover { color: var(--footer-color-hover); }
@@ -79,20 +79,19 @@
     .control .all { grid-area: all; justify-self: right; }
     .control .active { grid-area: active }
     .control .completed { grid-area: completed; justify-self: left; }
-    .control .clear { grid-area: clear; font-weight: 400; }
+    .control .clear { 
+        grid-area: clear; font-weight: 400;
+        justify-self: end; 
+        align-self: center; 
+        transform: translateX(-20px);
+    }
 
-    .control :where(.all, .active, .completed, .clear) { cursor: pointer; }
-    .control :where(.toggle, .toggle:hover) { color: var(--primary) }
+    .control :where(.all, .active, .completed, .clear) { cursor: pointer }
+    .control :is(.toggle, .toggle:hover) { color: var(--primary) }
 
-    @media (max-width: 900px) {
-        .control {
-            grid-template-areas: "counter . . clear clear";
-        }
-
-        .control :where(.all, .active, .completed) {
-            display: none;
-        }
-
+    @media (max-width: 1150px) {
+        .control { grid-template-areas: "counter . . clear clear"; }
+        .control :where(.all, .active, .completed) { display: none; }
         .control :is(.counter, .clear) { font-size: 0.75rem; }
     }
 </style>
