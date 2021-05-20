@@ -1,0 +1,6 @@
+/node_modules/
+/public/build/
+/design/
+style-guide.md
+
+.DS_Store
