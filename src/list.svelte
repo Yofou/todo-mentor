@@ -48,11 +48,12 @@
 
     .control {
         box-sizing: content-box;
-        border-top: var(--check-border) solid 1px;
+        border-top: var(--check-border) solid 2px;
 
         display: grid;
-        grid-template: 1fr / 100px 1fr 1fr 1fr 2fr;
+        grid-template: 1fr / 10ch 2fr 1fr 2fr 13ch;
         grid-template-areas: "counter all active completed clear";
+        gap: 15px;
     }
 
     

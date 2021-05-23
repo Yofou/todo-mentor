@@ -1,4 +1,5 @@
 <script>
+    import { fade, fly } from 'svelte/transition'
     import Check from './check.svelte'
     
     export let value;
@@ -9,7 +10,7 @@
     const onDelete = () => dispatcher('delete', {})
 </script>
 
-<div>
+<div in:fade={{ duration: 100 }} out:fly={{ x: 200, duration: 100 }}>
     <Check on:click {checked} />
     <p class:checked={checked}>{value}</p>
     <img src="build/images/icon-cross.svg" alt="delete" on:click={onDelete}>
@@ -21,7 +22,7 @@
         display: grid;
         grid-template: 1fr / 75px 1fr 50px;
         height: 75px;
-        border-bottom: var(--check-border) solid 1px;
+        border-bottom: var(--check-border) solid 2px;
         transition: border-bottom 0.1s ease-in-out;
     }
 

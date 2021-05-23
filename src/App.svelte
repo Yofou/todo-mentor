@@ -15,27 +15,61 @@
 	const onDelete = targetIndex => () => {
 		$todos = $todos.filter( (_, todoIndex) => targetIndex != todoIndex )
 	}
+
+	import { quintOut } from 'svelte/easing';
+	import { crossfade } from 'svelte/transition';
+
+	const [send, receive] = crossfade({
+		duration: d => Math.sqrt(d * 200),
+
+		fallback(node, params) {
+			const style = getComputedStyle(node);
+			const transform = style.transform === 'none' ? '' : style.transform;
+
+			return {
+				duration: 600,
+				easing: quintOut,
+				css: t => `
+					transform: ${transform} scale(${t});
+					opacity: ${t}
+				`
+			};
+		}
+	});
 </script>
 
 <main class:light={$theme == 'light'}>
 	<div id="background"></div>
 	<div class="container">
 		<h1 class="header">TODO</h1>
-		<img on:click={ () => $theme = $theme == 'dark' ? 'light' : 'dark' }
-			 class="header" 
-			 src={imgsrc} 
-			 alt="dark theme"
+		<img 
+			on:click={ () => $theme = $theme == 'dark' ? 'light' : 'dark' }
+			class="header" 
+			src={imgsrc} 
+			alt="dark theme"
 		>
 
 		<Create />
 		<List>
 			{#each $todos as todo, index}
 				{#if $type == 'active' && todo.checked == false }
-					<Item onclick {...todo} on:click={ onCheck(index) } />	
+					<Item 
+						{...todo}
+						on:click={ onCheck(index) }
+						on:delete = { onDelete(index) }
+					/>	
 				{:else if $type == 'completed' && todo.checked == true}
-					<Item {...todo} on:click={ onCheck(index) } />	
+					<Item 
+						{...todo} 
+						on:click={ onCheck(index) } 
+						on:delete = { onDelete(index) } 
+					/>	
 				{:else if $type == 'all'}
-					<Item {...todo} on:click={ onCheck(index) } on:delete = { onDelete(index) } />	
+					<Item 
+						{...todo} 
+						on:click={ onCheck(index) } 
+						on:delete = { onDelete(index) } 
+					/>	
 				{/if}
 			{/each}
 		</List>
