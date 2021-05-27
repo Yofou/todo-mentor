@@ -1,4 +1,5 @@
 <script>
+	import EmptyBox from './empty_box.svelte'
 	import Create from './create.svelte'
 	import List from './list.svelte'
 	import Item from './item.svelte'
@@ -6,6 +7,18 @@
 	import { theme, todos, type } from './stores.js'
 
 	$: imgsrc = $theme == 'dark' ? 'build/images/icon-sun.svg' : 'build/images/icon-moon.svg'
+
+	$: filteredTodos = $todos.filter(
+		todo => {
+			if ($type == "active" && todo.checked == true) {
+				return false
+			} else if ($type == "completed" && todo.checked == false) {
+				return false
+			} else {
+				return true
+			}
+		}
+	)
 
 	const onCheck = index => () => {
 		$todos[index].checked = !$todos[index].checked
@@ -51,27 +64,19 @@
 
 		<Create />
 		<List>
-			{#each $todos as todo, index}
-				{#if $type == 'active' && todo.checked == false }
-					<Item 
-						{...todo}
-						on:click={ onCheck(index) }
-						on:delete = { onDelete(index) }
-					/>	
-				{:else if $type == 'completed' && todo.checked == true}
+			{#if filteredTodos.length > 0}
+				{#each filteredTodos as todo, index}
 					<Item 
 						{...todo} 
 						on:click={ onCheck(index) } 
 						on:delete = { onDelete(index) } 
 					/>	
-				{:else if $type == 'all'}
-					<Item 
-						{...todo} 
-						on:click={ onCheck(index) } 
-						on:delete = { onDelete(index) } 
-					/>	
-				{/if}
-			{/each}
+				{/each}
+			{:else}
+				<div class="empty">
+					<EmptyBox />
+				</div>
+			{/if}
 		</List>
 
 		<Control />
@@ -98,6 +103,13 @@
 		--check-border: var(--highlight-500);
 		--footer-color: var(--highlight-300);
 		--footer-color-hover: white; 
+	}
+
+	.empty {
+		display: grid;
+		place-content: center;
+		width: 100%;
+		height: 100%;
 	}
 
 	.light {
